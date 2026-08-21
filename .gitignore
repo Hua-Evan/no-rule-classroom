@@ -1,0 +1,26 @@
+# 作業系統與開發工具暫存
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
+
+# 相依套件與日誌
+node_modules/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 本機環境設定與私密金鑰
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.credentials.json
+credentials.json
+service-account*.json
