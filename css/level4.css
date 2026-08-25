@@ -2,3 +2,4 @@
 .l4-game .l4-panel{position:absolute;z-index:6;left:50%;right:auto;bottom:2%;width:min(94%,920px);max-height:58%;margin:0;transform:translateX(-50%);overflow:auto;border:3px solid #263c50;border-radius:22px;background:#fffaf0f7;color:#202a43;box-shadow:7px 8px #101b29}
 .l4-game .l4-panel .eyebrow{color:#d96858}
 @media(max-width:650px){.l4-game .l4-panel{left:12px;right:12px;bottom:1%;width:auto;max-height:calc(100dvh - 180px);padding:18px;transform:none}}
+@media(min-width:651px){.l4-game.l4-intro-layout .l4-panel{top:clamp(158px,21dvh,190px);bottom:auto;max-height:calc(100% - 174px)}}
