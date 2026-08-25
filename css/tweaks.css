@@ -54,3 +54,22 @@ body:has(.interactive-l3) #test-back{position:fixed!important;z-index:99;right:8
 @media(prefers-reduced-motion:reduce){.l3-boss-intro>img,.l3-boss-intro .l3-panel,.l3-vote-papers i{animation:none!important}}
 .l3-boss-q{animation:none!important}.l3-boss-q::before{animation:none!important;opacity:.2!important}
 @media(max-width:650px){.l3-boss-intro,.l3-boss-q{display:flow-root}}
+
+/* LEVEL 3｜多數決巨獸：登場、退後、出題採分段演出。 */
+.l3-boss-intro::after{background:radial-gradient(circle at 50% 40%,#ffe6a83d 0 20%,transparent 43%),linear-gradient(#17132238,#1713221f)}
+.l3-boss-intro>img{filter:brightness(1.02) contrast(1.05) saturate(1.08);animation:l3-majority-cinematic 3.1s cubic-bezier(.2,.75,.25,1) both}
+.l3-boss-intro .l3-panel{animation:l3-boss-intro-panel .42s ease-out 2.7s both}
+.l3-boss-intro .l3-vote-papers i{animation-duration:1.05s}
+.l3-boss-q::after{background:radial-gradient(circle at 50% 36%,#ffe6a820 0 17%,transparent 38%),linear-gradient(#17132273,#1713228c)}
+.l3-boss-q>img{filter:brightness(.58) contrast(.9) saturate(.76);animation:l3-majority-retreat .9s ease-out both}
+.l3-boss-q .l3-panel{animation:l3-boss-question-in .45s ease-out .72s both}
+.l3-boss-q .l3-vote-papers i{display:none;opacity:.34;animation-duration:3.8s}
+.l3-boss-q .l3-vote-papers i:nth-child(1),.l3-boss-q .l3-vote-papers i:nth-child(4),.l3-boss-q .l3-vote-papers i:nth-child(7){display:block}
+@media(min-width:651px){.l3-boss-intro>img{left:0;width:100%;object-fit:cover;object-position:center top}.l3-boss-intro .l3-status{top:18px}.l3-boss-intro .l3-panel{left:4%;right:auto;top:clamp(210px,34%,285px);width:min(43%,560px);transform:none}.l3-boss-q>img{left:0;width:100%;object-fit:cover;object-position:center}.l3-boss-q .l3-panel{left:50%;right:auto;top:clamp(210px,30%,250px);width:min(82%,860px);transform:translateX(-50%);max-height:calc(100dvh - 270px)}}
+@media(max-width:650px){.l3-boss-intro .l3-panel{animation-delay:2.7s}.l3-boss-q .l3-panel{animation:l3-boss-question-mobile-in .4s ease-out .6s both}.l3-boss-q .l3-vote-papers i:nth-child(4){display:none}}
+@keyframes l3-majority-cinematic{0%{opacity:.28;transform:scale(1.14);filter:brightness(.42) contrast(1.18) saturate(.7)}24%{opacity:1;transform:scale(1.08);filter:brightness(1.16) contrast(1.08) saturate(1.13)}72%{opacity:1;transform:scale(1.08);filter:brightness(1.08) contrast(1.06) saturate(1.1)}100%{opacity:1;transform:scale(1);filter:brightness(1.02) contrast(1.05) saturate(1.08)}}
+@keyframes l3-majority-retreat{from{opacity:1;transform:scale(1.08);filter:brightness(1.02) contrast(1.04) saturate(1.05)}to{opacity:.88;transform:scale(.96);filter:brightness(.58) contrast(.9) saturate(.76)}}
+@keyframes l3-boss-intro-panel{from{visibility:hidden;opacity:0;transform:translateY(18px)}to{visibility:visible;opacity:1;transform:none}}
+@keyframes l3-boss-question-in{from{visibility:hidden;opacity:0;transform:translate(-50%,18px)}to{visibility:visible;opacity:1;transform:translateX(-50%)}}
+@keyframes l3-boss-question-mobile-in{from{visibility:hidden;opacity:0;transform:translateY(16px)}to{visibility:visible;opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.l3-boss-intro>img,.l3-boss-q>img,.l3-boss-intro .l3-panel,.l3-boss-q .l3-panel{animation-duration:.01ms!important;animation-delay:0s!important}}
