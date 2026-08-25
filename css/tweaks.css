@@ -25,7 +25,7 @@ html,body{max-width:100%;overflow-x:hidden}.hub-map,.outside-scene{width:min(100
 .l2-panel{top:225px;bottom:auto}@media(max-width:650px){.l2-panel{top:175px;bottom:auto}}
 /* 學生端的卡片式畫面在桌機與手機都水平置中。 */
 #app>.paper{margin:clamp(24px,7vh,72px) auto}#app>.character-page,#app>.character-confirm,#app>.welcome{margin-left:auto;margin-right:auto}
-.sim-card.emergency .eyebrow{font-size:0}.sim-card.emergency .eyebrow::after{content:'來測試看看';font-size:inherit}.sim-card.emergency h1{font-size:0}.sim-card.emergency h1::after{content:'測試開始';font-size:clamp(22px,3vw,42px)}
+.sim-card.emergency .eyebrow{font-size:0}.sim-card.emergency .eyebrow::after{content:'來模擬看看';font-size:inherit}.sim-card.emergency h1{font-size:0}.sim-card.emergency h1::after{content:'模擬開始';font-size:clamp(22px,3vw,42px)}
 .game-scene>.rpg-hud{left:50%;right:auto;width:min(900px,94%);transform:translateX(-50%)}@media(max-width:650px){.game-scene>.rpg-hud{left:auto;right:auto;width:calc(100% - 10px);transform:none}}
 .l2-scene{width:100%;min-height:calc(100dvh - 58px);aspect-ratio:auto}.l2-scene>img{object-fit:cover}
 /* 關卡背景固定滿版；內容過長時只在對話框內捲動，底圖不會跟著頁面移動。 */
