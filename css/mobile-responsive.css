@@ -16,7 +16,7 @@
   .dialogue, .l2-panel, .l4-panel, .fb-layer { font-size: 16px; line-height: 1.65; }
 
   /* 題目與選項以直向閱讀為先；允許正常的整頁垂直捲動。 */
-  .options, .option-list, .skill-grid, .avatar-grid, .fb-skill-cards, .l4-actions { grid-template-columns: 1fr !important; }
+  .options, .option-list, .skill-grid, .fb-skill-cards, .l4-actions { grid-template-columns: 1fr !important; }
   .choice, .option { min-height: 52px; padding: 13px 14px; font-size: 16px; line-height: 1.55; }
   .primary { min-height: 46px; padding: 11px 16px; font-size: 16px; }
   .button-row, .fb-ending-actions { display: grid; grid-template-columns: 1fr; gap: 10px; }
@@ -99,6 +99,123 @@
     max-width: 360px;
     margin: 14px auto calc(18px + env(safe-area-inset-bottom));
     min-height: 44px;
+  }
+}
+
+/* 第二輪手機實機精修：保留桌機，僅處理觸控與直向畫面。 */
+@media (max-width: 650px) {
+  html { scroll-padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
+  body, #app { padding-bottom: env(safe-area-inset-bottom); }
+  .game-scene, .phone-simulation, .l2-scene, .l4-game, .final-boss-scene { scroll-padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
+  .game-scene > :last-child, .phone-simulation > :last-child, .l2-scene > :last-child, .l4-game > :last-child, .final-boss-scene > :last-child { margin-bottom: calc(20px + env(safe-area-inset-bottom)); }
+
+  /* 角色選擇：維持 4 排 × 2 欄，避免一般選項的單欄規則覆蓋它。 */
+  .character-page .avatar-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 10px; margin: 12px 0; }
+  .character-page .avatar-card { min-height: 0; padding: 0; }
+  .character-page .avatar-card i { height: clamp(96px, 29vw, 126px); background-size: 400% 200%; background-position: inherit; }
+  .character-page .avatar-card span { padding: 7px 5px 9px; font-size: 16px; font-weight: 800; }
+
+  /* 教室門口：讓剛選好的角色成為場景主角，入口靠近門而不重疊。 */
+  .outside-avatar { width: auto; height: clamp(144px, 43vw, 168px); left: 13%; bottom: 3%; }
+  .door-entry { left: 55%; top: 46%; min-height: 44px; padding: 8px 11px; }
+
+  /* 一般事件卡稍微收斂，仍保留 16px 內文與 44px 以上按鈕。 */
+  .game-scene .dialogue, .l2-panel { padding: 14px; }
+  .game-scene .dialogue > .eyebrow, .l2-panel > .eyebrow { margin-bottom: 4px; }
+  .game-scene .dialogue h1, .l2-panel h1 { margin-bottom: 8px; }
+  .game-scene .dialogue .options, .l2-panel .options { gap: 8px; margin: 10px 0; }
+  .game-scene .dialogue .choice, .l2-panel .choice { min-height: 46px; padding: 10px 12px; }
+
+  /* 同一套緊湊 CLASS STATUS，避免在 Boss 與探索時遮住主畫面。 */
+  .game-scene > .rpg-hud, .l4-game > .rpg-hud, .l2-status, .fb-hud {
+    gap: 3px 6px;
+    padding: 6px 8px;
+    border-radius: 11px;
+    font-size: 10px;
+  }
+  .game-scene > .rpg-hud > b, .l4-game > .rpg-hud > b, .fb-hud > b, .l2-status::before { font-size: 10px; }
+  .game-scene > .rpg-hud .meter, .l4-game > .rpg-hud .meter { margin: 1px 0; }
+  .game-scene > .rpg-hud .meter i, .l4-game > .rpg-hud .meter i, .l2-status > span:not(.l2-player)::after { height: 5px; }
+  .l2-status > span { font-size: 9px; }
+  .l2-status .l2-player { transform: scale(.86); transform-origin: top right; }
+
+  /* 多數決巨獸：首屏同時保留 Boss、名稱、HP；台詞再自然往下閱讀。 */
+  .l3-boss-intro, .l3-boss-q { min-height: calc(100svh - 58px) !important; min-height: calc(100dvh - 58px) !important; }
+  .l3-boss-intro > img, .l3-boss-q > img { height: clamp(232px, 36dvh, 310px); object-position: 56% 40%; }
+  .l3-boss-intro .l3-status, .l3-boss-q .l3-status { top: 6px; }
+  .l3-boss-intro .l3-panel, .l3-boss-q .l3-panel {
+    margin: clamp(190px, 29dvh, 248px) 10px 0 !important;
+    padding: 12px 14px;
+    border-width: 2px;
+  }
+  .l3-boss-intro .l3-panel h1, .l3-boss-q .l3-panel h1 { font-size: clamp(22px, 6.4vw, 27px); }
+  .l3-boss-intro .boss-hp, .l3-boss-q .boss-hp { margin: 8px 0; padding: 6px 9px; }
+  .l3-boss-intro .boss-lines p { margin: 5px 0; padding: 6px 9px; }
+  .l3-boss-intro .boss-equation { margin: 8px 0; padding: 8px; }
+  .l3-vote-papers { height: clamp(232px, 36dvh, 310px); }
+
+  /* LEVEL 4 探索採固定場景座標：背景、紙杯與熱區一起對準，不再跟內容高度脫鉤。 */
+  .l4-game.l4-check-mode {
+    position: relative;
+    display: block;
+    height: calc(100dvh - 58px) !important;
+    min-height: calc(100svh - 58px) !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    background: #152d42;
+  }
+  .l4-game.l4-check-mode > .scene-img {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center center;
+  }
+  .l4-game.l4-check-mode > .rpg-hud {
+    position: absolute !important;
+    z-index: 12;
+    top: 6px !important;
+    left: 8px !important;
+    width: calc(100% - 16px) !important;
+    margin: 0 !important;
+  }
+  .l4-game.l4-check-mode .l4-panel {
+    position: absolute !important;
+    z-index: 11;
+    top: 91px !important;
+    left: 8px !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: min(236px, calc(100% - 16px)) !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 9px 11px !important;
+    border-width: 2px;
+    border-radius: 14px;
+    background: #fffaf0ed;
+  }
+  .l4-game.l4-check-mode .l4-panel .eyebrow { margin: 0 0 2px; font-size: 11px; }
+  .l4-game.l4-check-mode .l4-panel h1 { margin: 0; font-size: 17px; }
+  .l4-game.l4-check-mode .l4-panel .l4-found-count { margin: 3px 0; font-size: 14px; }
+  .l4-game.l4-check-mode .l4-panel .l4-explore-tip { margin: 2px 0 0; line-height: 1.35; }
+  .l4-game.l4-check-mode .l4-hotspots { position: absolute; z-index: 8; inset: 0; }
+  .l4-game.l4-check-mode .l4-hotspot { min-height: 0; border-width: 2px; border-radius: 10px; }
+  .l4-game.l4-check-mode .l4-hotspot span { font-size: 10px; }
+  .l4-game.l4-check-mode .l4-hotspot[data-k="power"] { left: 38%; top: 17%; width: 13%; height: 8%; }
+  .l4-game.l4-check-mode .l4-hotspot[data-k="window"] { left: 65%; top: 27%; width: 19%; height: 19%; }
+  .l4-game.l4-check-mode .l4-hotspot[data-k="recycle"] { left: 67%; top: 54%; width: 13%; height: 12%; }
+  .l4-game.l4-check-mode .l4-hotspot[data-k="cup"] { left: 69%; top: 80%; width: 9%; height: 8%; }
+  .l4-game.l4-check-mode .l4-floor-cup { z-index: 7; left: 68.5%; top: 78%; width: clamp(52px, 16vw, 68px); }
+  .l4-game.l4-check-mode .l4-discovery-card { z-index: 15; bottom: calc(10px + env(safe-area-inset-bottom)); }
+
+  /* 返回鍵可觸控、在安全區內，並在所有場景上層。 */
+  #test-back, body:has(.interactive-l3) #test-back {
+    position: relative !important;
+    z-index: 100 !important;
+    pointer-events: auto !important;
+    min-height: 46px;
+    margin-bottom: calc(24px + env(safe-area-inset-bottom));
   }
 }
 
