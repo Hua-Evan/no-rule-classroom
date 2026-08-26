@@ -270,6 +270,30 @@
   .l4-game.l4-check-mode .l4-panel h1 { font-size: 0; line-height: 1; }
   .l4-game.l4-check-mode .l4-panel h1::after { content: '🔍 CLASSROOM CHECK'; font-size: 13px; }
   .l4-game.l4-check-mode .l4-panel .l4-found-count { margin: 3px 0 0; font-size: 14px; }
+
+  /* 手機探索：未發現位置預設不揭露，僅由 LEVEL 4 的 pointer 命中狀態暫時亮起。 */
+  .l4-game.l4-check-mode.mobile-touch-explore .l4-hotspot:not(.found),
+  .l4-game.l4-check-mode.mobile-touch-explore .l4-hotspot:not(.found):hover {
+    border-color: transparent !important;
+    outline: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+  .l4-game.l4-check-mode.mobile-touch-explore .l4-hotspot:not(.found) span { display: none !important; }
+  .l4-game.l4-check-mode.mobile-touch-explore .l4-hotspot.mobile-active {
+    border-color: #ffe68c99 !important;
+    outline: 2px solid #ffe68c99 !important;
+    background: #ffe98a1f !important;
+    box-shadow: 0 0 18px #ffe27b8c, inset 0 0 14px #fff4bd3d !important;
+  }
+  .l4-game.l4-check-mode.mobile-touch-explore .l4-hotspot.mobile-active span {
+    display: block !important;
+    padding: 3px 5px;
+    border-radius: 7px;
+    background: #18374bc7;
+    color: #fff7c7;
+  }
 }
 
 @media (hover: hover) {
