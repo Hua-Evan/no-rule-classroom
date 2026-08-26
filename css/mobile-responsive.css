@@ -227,3 +227,51 @@
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; }
 }
+
+/* 第三輪實機修正：Safari touch hover、確認作答與 LEVEL 4 橫幅探索。 */
+@media (max-width: 650px) {
+  /* iPhone 會保留 touch 後的 :hover；只有 .picked 才代表真的已選取。 */
+  .choice:hover:not(.picked) { border-color: #9eb4bd; background: #fff; transform: none; }
+  .mobile-answer-confirm { display: block; width: 100%; margin: 10px 0 4px; min-height: 46px; }
+  .mobile-answer-confirm:disabled { opacity: .48; cursor: not-allowed; box-shadow: none; }
+
+  /* 門口立繪提高為主要視覺，仍靠左且保留入口。 */
+  .outside-avatar { height: clamp(230px, 58vw, 274px); left: 10%; bottom: 5%; }
+
+  /* LEVEL 4 原圖為 16:9；完整顯示成探索橫幅，避免直式 cover 裁掉電燈或紙杯。 */
+  .l4-game.l4-check-mode { min-height: calc(100dvh - 58px) !important; overflow: auto !important; }
+  .l4-game.l4-check-mode > .scene-img {
+    top: 132px !important;
+    bottom: auto !important;
+    height: auto !important;
+    aspect-ratio: 1672 / 941;
+    object-fit: fill !important;
+    object-position: center !important;
+  }
+  .l4-game.l4-check-mode .l4-hotspots {
+    top: 132px;
+    bottom: auto;
+    height: 56.28vw;
+    max-height: calc((100dvh - 58px) - 132px);
+  }
+  .l4-game.l4-check-mode .l4-hotspot[data-k="power"] { left: 40%; top: 0; width: 18%; height: 17%; }
+  .l4-game.l4-check-mode .l4-hotspot[data-k="window"] { left: 64%; top: 12%; width: 24%; height: 35%; }
+  .l4-game.l4-check-mode .l4-hotspot[data-k="recycle"] { left: 66%; top: 47%; width: 18%; height: 19%; }
+  .l4-game.l4-check-mode .l4-hotspot[data-k="cup"] { left: 68%; top: 76%; width: 13%; height: 22%; }
+  .l4-game.l4-check-mode .l4-floor-cup { left: 68.5%; top: calc(132px + 44vw); width: clamp(48px, 14vw, 64px); }
+  .l4-game.l4-check-mode .l4-panel {
+    top: calc(140px + 56.28vw) !important;
+    width: 178px !important;
+    min-height: 0;
+    padding: 7px 9px !important;
+  }
+  .l4-game.l4-check-mode .l4-panel .eyebrow,
+  .l4-game.l4-check-mode .l4-panel .l4-explore-tip { display: none; }
+  .l4-game.l4-check-mode .l4-panel h1 { font-size: 0; line-height: 1; }
+  .l4-game.l4-check-mode .l4-panel h1::after { content: '🔍 CLASSROOM CHECK'; font-size: 13px; }
+  .l4-game.l4-check-mode .l4-panel .l4-found-count { margin: 3px 0 0; font-size: 14px; }
+}
+
+@media (hover: hover) {
+  .choice:hover { border-color: var(--coral); background: #fff0de; transform: translateY(-1px); }
+}
