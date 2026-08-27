@@ -1,5 +1,67 @@
-/* 設定 SHEET_ID 和不公開的 TEACHER_TOKEN 後部署為 Web App。 */
-const SHEET_ID='請填入試算表 ID';
-const TEACHER_TOKEN='請改成長且不公開的字串';
-const HEADERS=['class','seat','avatar_id','avatar_index','started_at','updated_at','flow','class_state','last_impact','current_step','completed','prologue_answer','l1_index','level1_cleared','phone_initial','phone_reason','phone_event_answer','phone_after_event','phone_changed','phone_event_intro_seen','phone_event_slide','phone_cost_intro_seen','phone_sim_slide','lunch_initial','lunch_branch_answer','lunch_clarity','lunch_exception_answer','lunch_after_event','lunch_changed','level2_phase','level2_cleared','lunch_quiet_meaning','lunch_impact_definition','lunch_limit_reasonable','seat_vote','seat_decision','seat_standard','seat_purpose','seat_vote_real','seat_response','seat_standard_answer','seat_purpose_answers','seat_final_answer','majority_rule_answer','level3_phase','level3_cleared','boss_first_correct','boss_final_correct','bonus_group_answer','community_trash','community_reminder_style','boss_index','final_values','final_lunch','final_environment','final_ready','final_majority','final_comment','unlocked','seat_selected_position','seat_selected_type','seat_selected_label','seat_rule_match','last_profile_shift','seat_selected_limited','community_recycle_results','community_boss_answer','level4_phase','level4_cleared','classroom_check_found','paper_cup_action','responsibility_question','recycle_action','reminder_style','unassigned_task_answer','responsibility_final_answer','level4_impacts_applied','level4_current_event','responsibility_hit'];
-function doPost(e){try{return out(route(JSON.parse(e.postData.contents||'{}')))}catch(x){return out({ok:false,error:String(x)})}}function doGet(){return out({ok:true})}function out(x){return ContentService.createTextOutput(JSON.stringify(x)).setMimeType(ContentService.MimeType.JSON)}function book(){return SpreadsheetApp.openById(SHEET_ID)}function sh(n,h){let s=book().getSheetByName(n);if(!s){s=book().insertSheet(n);s.appendRow(h)}else{let existing=s.getRange(1,1,1,Math.max(1,s.getLastColumn())).getValues()[0],missing=h.filter(x=>!existing.includes(x));if(missing.length)s.getRange(1,existing.length+1,1,missing.length).setValues([missing])}return s}function parse(x){try{return typeof x==='string'?JSON.parse(x):x}catch(e){return x}}function all(n,h){let v=sh(n,h).getDataRange().getValues(),keys=v.shift();return v.map((r,i)=>({row:i+2,...Object.fromEntries(keys.map((k,j)=>[k,parse(r[j])]))}))}function put(n,h,key,d){let s=sh(n,h),old=all(n,h).find(x=>Object.keys(key).every(k=>String(x[k])===String(key[k]))),x={...(old||{}),...d};delete x.row;let vals=h.map(k=>typeof x[k]==='object'?JSON.stringify(x[k]??''):x[k]??'');old?s.getRange(old.row,1,1,h.length).setValues([vals]):s.appendRow(vals);return x}function setting(c){return put('settings',['class','results_visible','formal_rules_visible','projection_slide'],{class:c},{class:c})}function route(q){let a=q.action,c=q.class;if(a==='verify')return {ok:q.token===TEACHER_TOKEN};if(a==='getStudent')return all('students',HEADERS).find(x=>String(x.class)===String(c)&&String(x.seat)===String(q.seat))||null;if(a==='student')return put('students',HEADERS,{class:c,seat:q.seat},{class:c,seat:q.seat,...q.data,updated_at:new Date().toISOString()});if(a==='stats')return {students:all('students',HEADERS).filter(x=>String(x.class)===String(c)),settings:setting(c),rules:put('formal_rules',['class','phone_rule','lunch_rule','environment_rule','ready_rule','other_rule'],{class:c},{class:c})};if(q.token!==TEACHER_TOKEN)throw Error('教師驗證失敗');if(a==='settings')return put('settings',['class','results_visible','formal_rules_visible','projection_slide'],{class:c},{class:c,...q.data});if(a==='rules')return put('formal_rules',['class','phone_rule','lunch_rule','environment_rule','ready_rule','other_rule'],{class:c},{class:c,...q.data});if(a==='reset'){let s=sh('students',HEADERS);all('students',HEADERS).filter(x=>String(x.class)===String(c)).reverse().forEach(x=>s.deleteRow(x.row));return {ok:true}}throw Error('未知 action')}
+/* 將 Google 試算表網址中的 ID 貼入；不要把任何帳密或金鑰放到學生端。 */
+const SHEET_ID = '請填入試算表 ID';
+const SHEET_NAME = 'students';
+const HEADERS = [
+  'student_id','class','seat','avatar_id',
+  'prologue_answer','level1_cleared','phone_initial','phone_reason_avoid_self_distraction','phone_reason_avoid_affecting_others','phone_reason_maintain_learning_order','phone_reason_reduce_teacher_management','phone_reason_students_cannot_self_manage','phone_reason_no_rules_needed','phone_event_answer','phone_after_event','phone_changed',
+  'level2_cleared','lunch_initial','lunch_branch_answer','lunch_quiet_meaning','lunch_impact_definition','lunch_limit_reasonable','lunch_clarity','lunch_exception_answer','lunch_after_event','lunch_changed',
+  'level3_cleared','seat_vote_real','seat_preference','seat_selected_position','seat_selected_type','seat_preference_met','seat_response','level3_scanner_q1','level3_scanner_q2','level3_scanner_q3','level3_scanner_q4','seat_rule_match','majority_rule_answer','seat_final_answer',
+  'level4_cleared','paper_cup_action','responsibility_question','recycle_action','reminder_style','power_action','unassigned_task_answer','responsibility_final_answer',
+  'final_boss_cleared','final_boss_round1_exec','final_boss_round1_clear','final_boss_round1_fair','final_boss_round1_except','final_boss_round1_community','final_boss_scan_purpose','final_boss_scan_method','final_boss_round2_exec','final_boss_round2_clear','final_boss_round2_fair','final_boss_round2_except','final_boss_round2_community','final_boss_round3_answer','final_boss_round4a_exec','final_boss_round4a_clear','final_boss_round4a_fair','final_boss_round4a_except','final_boss_round4a_community','final_boss_round4b_exec','final_boss_round4b_clear','final_boss_round4b_fair','final_boss_round4b_except','final_boss_round4b_community','final_rule_fragment_individual_needs','final_rule_fragment_actual_impact','final_rule_fragment_rule_purpose','final_rule_fragment_reasonable_exception','final_rule_fragment_majority_support','final_rule_fragment_same_rule_for_all','final_rule_fragment_execution_cost','final_rule_core_1','final_rule_core_2','final_rule_last',
+  'ending_type','ending_top1','ending_top2','ending_top3','profile_freedom','profile_learning','profile_order','profile_empathy','profile_community','profile_executability',
+  'status_freedom','status_learning','status_order','status_empathy','status_community',
+  'started_at','updated_at'
+];
+
+function doPost(e) {
+  try {
+    const request = JSON.parse(e.postData && e.postData.contents || '{}');
+    if (request.action !== 'syncStudent') throw new Error('Unsupported action');
+    const payload = request.payload || {};
+    if (!isUuid(payload.student_id)) throw new Error('Invalid student_id');
+    const data = payload.data || {};
+    if (data.student_id !== payload.student_id) throw new Error('student_id mismatch');
+    const row = pickWhitelisted(data);
+    row.student_id = payload.student_id;
+    if (!row.updated_at) row.updated_at = new Date().toISOString();
+    const result = upsertStudent(row);
+    return json({ok:true,student_id:row.student_id,updated_at:row.updated_at,ignored:result.ignored});
+  } catch (error) {
+    return json({ok:false,error:String(error)});
+  }
+}
+
+function doGet() { return json({ok:true}); }
+function json(value) { return ContentService.createTextOutput(JSON.stringify(value)).setMimeType(ContentService.MimeType.JSON); }
+function isUuid(value) { return typeof value === 'string' && /^[-a-zA-Z0-9]{16,80}$/.test(value); }
+function pickWhitelisted(data) { return HEADERS.reduce((row,key) => { if (Object.prototype.hasOwnProperty.call(data,key)) row[key] = data[key]; return row; }, {}); }
+function sheet() {
+  const target = SpreadsheetApp.openById(SHEET_ID);
+  let page = target.getSheetByName(SHEET_NAME);
+  if (!page) { page = target.insertSheet(SHEET_NAME); page.appendRow(HEADERS); }
+  const current = page.getRange(1,1,1,Math.max(page.getLastColumn(),1)).getValues()[0];
+  const missing = HEADERS.filter(header => !current.includes(header));
+  if (missing.length) page.getRange(1,current.length + 1,1,missing.length).setValues([missing]);
+  return page;
+}
+function upsertStudent(row) {
+  const lock = LockService.getScriptLock();
+  lock.waitLock(5000);
+  try {
+  const page = sheet();
+  const column = HEADERS.indexOf('student_id') + 1;
+  const lastRow = page.getLastRow();
+  const ids = lastRow > 1 ? page.getRange(2,column,lastRow - 1,1).getValues().flat() : [];
+  const index = ids.findIndex(id => String(id) === row.student_id);
+  if (index >= 0) {
+    const previousUpdatedAt = page.getRange(index + 2,HEADERS.indexOf('updated_at') + 1).getValue();
+    if (previousUpdatedAt && new Date(previousUpdatedAt).getTime() > new Date(row.updated_at).getTime()) return {ignored:true};
+  }
+  const values = HEADERS.map(header => row[header] === undefined || row[header] === null ? '' : row[header]);
+  if (index >= 0) page.getRange(index + 2,1,1,HEADERS.length).setValues([values]);
+  else page.appendRow(values);
+  return {ignored:false};
+  } finally {
+    lock.releaseLock();
+  }
+}
