@@ -247,6 +247,7 @@
     aspect-ratio: 1672 / 941;
     object-fit: fill !important;
     object-position: center !important;
+    filter: brightness(.94) !important;
   }
   .l4-game.l4-check-mode .l4-hotspots {
     top: 132px;
