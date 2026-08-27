@@ -76,22 +76,23 @@ function upsertStudent(row) {
 }
 
 const ANALYSIS_COLUMNS = [
-  ['class','班級'], ['seat','座號'], ['avatar_id','遊戲角色'], ['student_id','學生識別碼'], ['started_at','開始時間'], ['updated_at','最後同步時間'],
-  ['level1_cleared','LEVEL 1 完成'], ['level2_cleared','LEVEL 2 完成'], ['level3_cleared','LEVEL 3 完成'], ['level4_cleared','LEVEL 4 完成'], ['final_boss_cleared','FINAL BOSS 完成'],
-  ['prologue_answer','初始班規看法'], ['phone_initial','手機規範初始立場'],
-  ['phone_reason_avoid_self_distraction','手機規範理由｜避免自己分心'], ['phone_reason_avoid_affecting_others','手機規範理由｜避免影響他人'], ['phone_reason_maintain_learning_order','手機規範理由｜維持學習秩序'], ['phone_reason_reduce_teacher_management','手機規範理由｜降低管理成本'], ['phone_reason_students_cannot_self_manage','手機規範理由｜學生無法自管'], ['phone_reason_no_rules_needed','手機規範理由｜不需要規範'],
-  ['phone_event_answer','集中保管制度問題'], ['phone_after_event','手機規範最終立場'], ['phone_changed','手機立場是否改變'],
-  ['lunch_initial','午休規範初始立場'], ['lunch_branch_answer','午休分支判斷'], ['lunch_quiet_meaning','「安靜」的定義'], ['lunch_impact_definition','不影響他人的具體做法'], ['lunch_limit_reasonable','午休限制是否過多'], ['lunch_clarity','明確是否等於好規範'], ['lunch_exception_answer','午休合理例外立場'], ['lunch_after_event','午休規範最終設計'], ['lunch_changed','午休立場是否改變'],
-  ['seat_vote_real','是否支持成績排序選位'], ['seat_preference','選位優先考量'], ['seat_selected_position','最後選擇座位'], ['seat_selected_type','最後座位類型'], ['seat_preference_met','座位是否符合偏好'], ['seat_response','座位爭議處理方式'], ['level3_scanner_q1','規則掃描｜先後順序清楚'], ['level3_scanner_q2','規則掃描｜標準一致'], ['level3_scanner_q3','規則掃描｜是否表決'], ['level3_scanner_q4','規則掃描｜目的與標準相關'], ['seat_rule_match','完成規則配對'], ['majority_rule_answer','多數與一致標準是否足夠'], ['seat_final_answer','多數決是否必然合理'],
-  ['paper_cup_action','他人垃圾處理方式'], ['responsibility_question','分工是否足以維護班級'], ['recycle_action','回收分類處理方式'], ['reminder_style','提醒語氣／後續做法'], ['power_action','未分工設備處理'], ['unassigned_task_answer','未分配共同事務處理'], ['responsibility_final_answer','分工與共同責任最終看法'],
-  ['final_boss_round1_exec','FINAL R1｜可執行性'], ['final_boss_round1_clear','FINAL R1｜明確性'], ['final_boss_round1_fair','FINAL R1｜規範合理性'], ['final_boss_round1_except','FINAL R1｜合理例外'], ['final_boss_round1_community','FINAL R1｜共同體責任'],
-  ['final_boss_scan_purpose','FINAL｜規則目的'], ['final_boss_scan_method','FINAL｜規則手段'],
-  ['final_boss_round2_exec','FINAL R2｜可執行性'], ['final_boss_round2_clear','FINAL R2｜明確性'], ['final_boss_round2_fair','FINAL R2｜規範合理性'], ['final_boss_round2_except','FINAL R2｜合理例外'], ['final_boss_round2_community','FINAL R2｜共同體責任'],
-  ['final_boss_round3_answer','FINAL｜生日特權規則修正'],
-  ['final_boss_round4a_exec','FINAL R4A｜可執行性'], ['final_boss_round4a_clear','FINAL R4A｜明確性'], ['final_boss_round4a_fair','FINAL R4A｜規範合理性'], ['final_boss_round4a_except','FINAL R4A｜合理例外'], ['final_boss_round4a_community','FINAL R4A｜共同體責任'],
-  ['final_boss_round4b_exec','FINAL R4B｜可執行性'], ['final_boss_round4b_clear','FINAL R4B｜明確性'], ['final_boss_round4b_fair','FINAL R4B｜規範合理性'], ['final_boss_round4b_except','FINAL R4B｜合理例外'], ['final_boss_round4b_community','FINAL R4B｜共同體責任'],
-  ['final_rule_fragment_individual_needs','FINAL RULE｜分析碎片：個別需求'], ['final_rule_fragment_actual_impact','FINAL RULE｜分析碎片：實際影響'], ['final_rule_fragment_rule_purpose','FINAL RULE｜分析碎片：規則目的'], ['final_rule_fragment_reasonable_exception','FINAL RULE｜分析碎片：合理例外'], ['final_rule_fragment_majority_support','FINAL RULE｜分析碎片：多數支持'], ['final_rule_fragment_same_rule_for_all','FINAL RULE｜分析碎片：人人相同'], ['final_rule_fragment_execution_cost','FINAL RULE｜分析碎片：執行成本'], ['final_rule_core_1','FINAL RULE｜核心漏洞 1'], ['final_rule_core_2','FINAL RULE｜核心漏洞 2'], ['final_rule_last','FINAL RULE｜最後分析碎片'],
-  ['ending_type','最終規範角色'], ['ending_top1','規範雷達第 1 名'], ['ending_top2','規範雷達第 2 名'], ['ending_top3','規範雷達第 3 名'],
+  ['class','班級'], ['seat','座號'], ['avatar_id','遊戲角色'], ['ending_type','最終規範角色'],
+  ['level1_cleared','LEVEL 1 完成'], ['level2_cleared','LEVEL 2 完成'], ['level3_cleared','LEVEL 3 完成'], ['level4_cleared','LEVEL 4 完成'], ['final_boss_cleared','FINAL BOSS 完成'], ['started_at','開始時間'], ['updated_at','最後同步時間'], ['student_id','學生識別碼'],
+  ['prologue_answer','序章｜你覺得沒有班級規範的班級會怎麼樣？'],
+  ['phone_initial','L1｜你認為哪一種手機管理方式最好？【初始立場】'],
+  ['phone_reason_avoid_self_distraction','L1｜手機共同規範理由｜避免自己分心'], ['phone_reason_avoid_affecting_others','L1｜手機共同規範理由｜避免影響其他同學'], ['phone_reason_maintain_learning_order','L1｜手機共同規範理由｜維持共同學習秩序'], ['phone_reason_reduce_teacher_management','L1｜手機共同規範理由｜降低老師提醒與管理時間'], ['phone_reason_students_cannot_self_manage','L1｜手機共同規範理由｜學生無法自我管理'], ['phone_reason_no_rules_needed','L1｜手機共同規範理由｜根本不需要規範'],
+  ['phone_event_answer','L1｜「每節上課集中、下課歸還」這個制度，最大的問題可能是什麼？'], ['phone_after_event','L1｜經過手機事件後，你認為哪一種手機管理方式最好？【最終立場】'], ['phone_changed','L1｜手機規範前後立場是否改變？'],
+  ['lunch_initial','L2｜你認為哪種午休規範比較合適？【初始立場】'], ['lunch_branch_answer','L2｜依你的午休初始選擇，面對情境後的判斷'], ['lunch_quiet_meaning','L2｜「保持安靜」到底是不能講話，還是不能製造干擾？'], ['lunch_impact_definition','L2｜請寫下你認為「較不影響他人」的程度或做法【學生自由回答】'], ['lunch_limit_reasonable','L2｜你認為「所有人都必須趴下」的規範是否限制太多？'], ['lunch_clarity','L2｜一條規範非常明確，所以它就一定是好規範嗎？'], ['lunch_exception_answer','L2｜面對特殊或必要情況，午休規範應該怎麼處理？'], ['lunch_after_event','L2｜經過午休事件後，你會怎麼設計午休規範？【最終立場】'], ['lunch_changed','L2｜午休規範前後立場是否改變？'],
+  ['seat_vote_real','L3｜你是否支持「依段考總成績排名，從第一名開始依序自由選擇座位」？'], ['seat_preference','L3｜選座位時，你最在意什麼？'], ['seat_selected_position','L3｜最後選擇的座位'], ['seat_selected_type','L3｜最後選擇的座位類型'], ['seat_preference_met','L3｜最後座位是否符合原本偏好？'], ['seat_response','L3｜座位制度出現問題後，你認為應該怎麼處理？'], ['level3_scanner_q1','L3 規則掃描｜這條規則是否清楚告訴大家「誰先選、誰後選」？'], ['level3_scanner_q2','L3 規則掃描｜每位同學是否都使用「段考成績排名」這個相同標準？'], ['level3_scanner_q3','L3 規則掃描｜這條規則是否經過全班表決？'], ['level3_scanner_q4','L3 規則掃描｜「段考成績」和「安排適合的座位」之間是否一定有直接關係？'], ['seat_rule_match','L3｜是否完成「規則目的 × 標準」配對'], ['majority_rule_answer','L3｜一項規則只要「多數人支持＋每個人適用同一標準」就一定公平合理嗎？'], ['seat_final_answer','L3｜如果 35 人中有 34 人支持、只有 1 人反對，這項規則就一定合理嗎？'],
+  ['paper_cup_action','L4｜看到不是自己的飲料杯時，你會怎麼做？'], ['responsibility_question','L4｜如果每個人都完成自己的分工，班級就一定會維持得很好嗎？'], ['recycle_action','L4｜看到回收物被丟進一般垃圾時，你會怎麼做？'], ['reminder_style','L4｜面對回收分類錯誤，你會採取什麼提醒語氣／後續做法？'], ['power_action','L4｜發現不是自己負責的電燈或電扇還開著，你會怎麼處理？'], ['unassigned_task_answer','L4｜共同環境出現沒有明確分配給任何人的事情，比較適合怎麼處理？'], ['responsibility_final_answer','L4｜如果每個人都完成自己被分配的工作，是否就足以維持共同環境？'],
+  ['final_boss_round1_exec','FINAL R1｜選擇技能：可執行性'], ['final_boss_round1_clear','FINAL R1｜選擇技能：明確性'], ['final_boss_round1_fair','FINAL R1｜選擇技能：規範合理性'], ['final_boss_round1_except','FINAL R1｜選擇技能：合理例外'], ['final_boss_round1_community','FINAL R1｜選擇技能：共同體責任'],
+  ['final_boss_scan_purpose','FINAL｜「作業全準時可優先選座位」：你判斷這條規則的目的為何？'], ['final_boss_scan_method','FINAL｜「作業全準時可優先選座位」：你判斷這條規則使用的手段為何？'],
+  ['final_boss_round2_exec','FINAL R2｜選擇技能：可執行性'], ['final_boss_round2_clear','FINAL R2｜選擇技能：明確性'], ['final_boss_round2_fair','FINAL R2｜選擇技能：規範合理性'], ['final_boss_round2_except','FINAL R2｜選擇技能：合理例外'], ['final_boss_round2_community','FINAL R2｜選擇技能：共同體責任'],
+  ['final_boss_round3_answer','FINAL｜「生日當天可免除所有班級工作」，你會怎麼修改這條規則？'],
+  ['final_boss_round4a_exec','FINAL R4A｜選擇技能：可執行性'], ['final_boss_round4a_clear','FINAL R4A｜選擇技能：明確性'], ['final_boss_round4a_fair','FINAL R4A｜選擇技能：規範合理性'], ['final_boss_round4a_except','FINAL R4A｜選擇技能：合理例外'], ['final_boss_round4a_community','FINAL R4A｜選擇技能：共同體責任'],
+  ['final_boss_round4b_exec','FINAL R4B｜選擇技能：可執行性'], ['final_boss_round4b_clear','FINAL R4B｜選擇技能：明確性'], ['final_boss_round4b_fair','FINAL R4B｜選擇技能：規範合理性'], ['final_boss_round4b_except','FINAL R4B｜選擇技能：合理例外'], ['final_boss_round4b_community','FINAL R4B｜選擇技能：共同體責任'],
+  ['final_rule_fragment_individual_needs','FINAL RULE｜曾分析：個別需求'], ['final_rule_fragment_actual_impact','FINAL RULE｜曾分析：實際影響'], ['final_rule_fragment_rule_purpose','FINAL RULE｜曾分析：規則目的'], ['final_rule_fragment_reasonable_exception','FINAL RULE｜曾分析：合理例外'], ['final_rule_fragment_majority_support','FINAL RULE｜曾分析：多數支持'], ['final_rule_fragment_same_rule_for_all','FINAL RULE｜曾分析：人人相同'], ['final_rule_fragment_execution_cost','FINAL RULE｜曾分析：執行成本'], ['final_rule_core_1','FINAL RULE｜最終核心漏洞 1'], ['final_rule_core_2','FINAL RULE｜最終核心漏洞 2'], ['final_rule_last','FINAL RULE｜最後一次分析的碎片'],
+  ['ending_top1','規範雷達第 1 名'], ['ending_top2','規範雷達第 2 名'], ['ending_top3','規範雷達第 3 名'],
   ['profile_freedom','規範傾向｜個人自由'], ['profile_learning','規範傾向｜學習效率'], ['profile_order','規範傾向｜班級秩序'], ['profile_empathy','規範傾向｜同學感受'], ['profile_community','規範傾向｜共同責任'], ['profile_executability','規範傾向｜可執行性'],
   ['status_freedom','CLASS STATUS｜自由度'], ['status_learning','CLASS STATUS｜學習效率'], ['status_order','CLASS STATUS｜班級秩序'], ['status_empathy','CLASS STATUS｜同學感受'], ['status_community','CLASS STATUS｜共同責任']
 ];
@@ -131,17 +132,58 @@ function displayValue(key, value) {
 function analysisSheet() {
   const target = SpreadsheetApp.openById(SHEET_ID);
   let page = target.getSheetByName(ANALYSIS_SHEET_NAME);
-  if (page) return page;
-  page = target.insertSheet(ANALYSIS_SHEET_NAME);
+  const created = !page;
+  if (created) page = target.insertSheet(ANALYSIS_SHEET_NAME);
   const headers = ANALYSIS_COLUMNS.map(column => column[1]);
-  page.getRange(1,1,1,headers.length).setValues([headers]);
+  const current = page.getRange(1,1,1,headers.length).getValues()[0];
+  const headerChanged = created || headers.some((header,index) => current[index] !== header);
+
+  // 舊版分析表的欄位順序不同；直接由 students 原始資料重建，避免只換 header 造成資料錯位。
+  if (headerChanged && !created) {
+    const records = studentRecords();
+    const oldRows = page.getLastRow() - 1;
+    if (oldRows > 0) page.getRange(2,1,oldRows,headers.length).clearContent();
+    if (records.length) {
+      page.getRange(2,1,records.length,headers.length)
+        .setValues(records.map(record => analysisValues(record)));
+    }
+  }
+
+  if (headerChanged) page.getRange(1,1,1,headers.length).setValues([headers]);
+  if (created || headerChanged) formatAnalysisSheet(page,headers.length);
+  return page;
+}
+
+function studentRecords() {
+  const source = sheet();
+  const lastRow = source.getLastRow();
+  if (lastRow <= 1) return [];
+  return source.getRange(2,1,lastRow - 1,HEADERS.length).getValues().map(toRecord);
+}
+
+function formatAnalysisSheet(page,width) {
   page.setFrozenRows(1);
-  page.getRange(1,1,1,headers.length).setWrap(true);
-  page.getRange(1,1,1,headers.length).createFilter();
-  page.setColumnWidths(1,headers.length,130);
+  page.setRowHeight(1,72);
+  page.getRange(1,1,1,width).setWrap(true);
+  page.setColumnWidths(1,width,150);
+
+  const basicWidths = {class:100,seat:70,avatar_id:100,ending_type:120,student_id:190};
+  Object.keys(basicWidths).forEach(key => {
+    const column = ANALYSIS_COLUMNS.findIndex(item => item[0] === key) + 1;
+    page.setColumnWidth(column,basicWidths[key]);
+  });
+
   const textColumn = ANALYSIS_COLUMNS.findIndex(column => column[0] === 'lunch_impact_definition') + 1;
   page.setColumnWidth(textColumn,320);
-  return page;
+  page.getRange(2,textColumn,Math.max(page.getMaxRows() - 1,1),1).setWrap(true);
+
+  const filter = page.getFilter();
+  if (filter) filter.remove();
+  page.getRange(1,1,Math.max(page.getLastRow(),2),width).createFilter();
+}
+
+function analysisValues(record) {
+  return ANALYSIS_COLUMNS.map(column => displayValue(column[0],record[column[0]]));
 }
 
 function upsertAnalysis(record) {
@@ -153,7 +195,7 @@ function upsertAnalysis(record) {
     const lastRow = page.getLastRow();
     const ids = lastRow > 1 ? page.getRange(2,idColumn,lastRow - 1,1).getValues().flat() : [];
     const index = ids.findIndex(id => String(id) === String(record.student_id));
-    const values = ANALYSIS_COLUMNS.map(column => displayValue(column[0],record[column[0]]));
+    const values = analysisValues(record);
     if (index >= 0) page.getRange(index + 2,1,1,values.length).setValues([values]);
     else page.appendRow(values);
   } finally {
